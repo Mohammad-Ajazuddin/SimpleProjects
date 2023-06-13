@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="guessNumber.css">
+    <title>Guess The Number!</title>
+</head>
+<body>
+    <div class="container">
+        <p>The Number is between 1-25. Can you guess it?</p>
+        <input type="number" name="number" id="inputNumber" placeholder="Number">
+        <button class="guess">Guess</button>
+        <p id="hint"></p>
+        <p>No. Of Guesses : <span id="guessCount">guessCount</span></p>
+        <button id="reset">Reset</button>
+    </div>
+    <script>
+        let guesses=0;
+        const containerElement=document.querySelector('.container');
+        const bodyTag=document.querySelector('body');
+        const guessBtn=document.querySelector('.guess');
+        const resetBtn=document.querySelector('#reset');
+        const hintElement=document.getElementById('hint');
+        const guessCountElement=document.getElementById('guessCount');
+        const inputBtn=document.getElementById('inputNumber');
+        let randomNumber = undefined;
+        guessCountElement.innerText=guesses;
+        function randNum(){
+            return  Math.floor(Math.random() * 25) + 1;
+        }
+        randomNumber = randNum();
+        function check()
+        {
+            guessBtn.disabled = true;
+            if(randomNumber>inputValue)
+            {
+                hintElement.innerText="Hint:Chose little Larger Number!";
+                bodyTag.style.background='linear-gradient(120deg,rgb(255, 65, 65),red)';
+                guesses++;
+            }
+            else if(randomNumber<inputValue)
+            {
+                hintElement.innerText="Hint:Chose little Smaller Number!";
+                bodyTag.style.background='linear-gradient(120deg,rgb(255, 65, 65),red)';
+                guesses++;
+            }
+            else if(randomNumber===inputValue){
+                hintElement.innerText=inputValue+" is the Correct Answer!!!";
+                bodyTag.style.background='linear-gradient(120deg,rgb(65, 255, 65),green)';
+                guesses++;
+                inputBtn.style.display='none';
+                guessBtn.style.display='none';
+                hintElement.style.fontWeight='bold';
+                hintElement.style.fontSize='24px';
+                containerElement.style.transition='transform 3s';
+                containerElement.style.transform='scale(1.5)';
+            }
+            guessCountElement.innerText=guesses;
+        }
+        function resetFunc(){
+            hintElement.innerText="";
+            bodyTag.style.background='linear-gradient(120deg,rgb(0,0,0),rgb(214,214,214))';
+            guesses=0;
+            randomNumber=randNum();
+            guessCountElement.innerText=guesses;
+            inputBtn.value="";
+            inputValue=undefined;
+            inputBtn.style.display='block';
+            guessBtn.style.display='block';
+            hintElement.style.fontWeight='200';
+            hintElement.style.fontSize='16px';
+            containerElement.style.transform='scale(1)';
+        }
+        let inputValue=undefined;
+        inputBtn.addEventListener('input',function(){
+            inputValue=parseInt(inputBtn.value);
+            guessBtn.disabled = false;
+            bodyTag.style.background='linear-gradient(120deg,rgb(0,0,0),rgb(214,214,214))';
+        });
+        guessBtn.addEventListener('click',check);
+        resetBtn.addEventListener('click',resetFunc);
+    </script>
+</body>
+</html>
