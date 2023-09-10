@@ -1,0 +1,154 @@
+*{
+  margin:0;
+  box-sizing:border-box;
+}
+body{
+  font-family:sans-serif;
+}
+nav header{
+text-align:center;
+padding-top:10px;
+}
+
+header{
+  font-size:25px;
+  font-weight:thin;
+}
+main header{
+  text-align:left;
+  margin:15px;
+}
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  min-width:200px;
+  max-width:300px;
+  height:100%;
+  border-right:3px solid gray;
+}
+#navbar ul {
+  height: 80%;
+  padding:0;
+  overflow:auto;
+}
+
+#navbar li {
+  color: gray;
+  border-top: 1px solid gray;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+#navbar a {
+  display: block;
+  padding: 10px 30px;
+  color: gray;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#navbar a:hover{
+  color:white;
+  background-color:#0a0a23;
+  border:2px solid yellow;
+}
+
+main{
+  margin-left:300px;
+  margin-top:30px;
+}
+ section p,section li{
+   font-size:0.8em;
+   margin:10px 25px;
+   line-height:1.5em;
+ }
+
+code{
+  display:block;
+  padding:20px;
+  background-color:rgba(120,120,120,0.1);
+  border-radius:5px;
+  margin:5px 25px;
+  box-shadow:3px 3px 5px blue;
+}
+
+footer p{
+	display:block;
+	position:fixed;
+	bottom:0;
+	text-align:center;
+	font-style:italic;
+	margin:0;
+	padding:5px;
+	width:100%;
+	background-color:#0a0a23;
+	color:white;
+}
+
+@media only screen and (max-width:769px)
+{
+  nav header{
+  text-align:center;
+  padding-top:5px;
+ }
+  header{
+    font-size:10px;
+    font-weight:bold;
+    margin:5px;
+  }
+  main p{
+  font-size:9px;
+  margin:7px;
+  }
+  nav li,main li,footer p{
+   font-size:9px;
+ }
+  main{
+    margin-left:100px;
+    margin-bottom:40px;
+  }
+section ul li,section ul li li{
+  margin-left:-10px;
+  margin-bottom:2px;
+}
+  #navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    min-width:80px;
+    max-width:100px;
+    height:100%;
+    border-right:1px solid gray;
+  }
+  #navbar ul {
+   height: 80%;
+   padding:0;
+   overflow:auto;
+}
+#navbar a {
+  display: block;
+  padding: 5px 10px;
+  color: gray;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#navbar a:hover{
+  color:white;
+  background-color:#0a0a23;
+  border:1px solid yellow;
+}
+code{
+  display:block;
+  padding:5px;
+  background-color:rgba(120,120,120,0.1);
+  border-radius:3px;
+  margin:3px 15px;
+  font-size:8px;
+  box-shadow:2px 2px 4px blue;
+  overflow:auto;
+}
+}
