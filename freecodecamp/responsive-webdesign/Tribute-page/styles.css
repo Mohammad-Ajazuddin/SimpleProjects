@@ -1,0 +1,102 @@
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:sans-serif;
+  background-color:white;
+  margin:0;
+}
+
+.main-container{
+  background-color:rgb(190, 180, 180,0.5);
+  margin:0 10px 25px 10px;
+  padding:12px;
+}
+
+#title{
+  text-align:center;
+  padding-top:20px;
+  font-size:2.5em;
+  width:100%;
+}
+
+header p{
+  text-align:center;
+  margin-top:15px;
+  font-size:14px;
+  width:100%;
+}
+
+#img-div{
+  margin:0 auto;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:center;
+}
+
+figure{
+  width:100%;
+  max-width:1000px;
+}
+
+img{
+  display:block;
+  width:100%;
+  margin:0;
+}
+
+#image{
+  max-width:100%;
+}
+
+#img-caption{
+  text-align:center;
+  margin-top:10px;
+  padding:5px;
+  font-size:14px;
+}
+.container{
+  display:flex;
+  justify-content:center;
+}
+
+#tribute-info{
+  width:50%;
+  margin:40px auto;
+}
+
+h2{
+  text-align:center;
+  font-size:14px;
+}
+
+ul{
+  margin-top:40px;
+}
+
+li{
+  font-size:14px;
+  line-height:2.5em;
+}
+
+span{
+  font-weight:bold;
+  font-size:14px;
+}
+.message,.saidby{
+  font-style:Oblique;
+}
+
+.message{
+  margin-top:2.5em;
+}
+
+.saidby{
+  margin-bottom:0;
+}
+
+#tribute-link{
+  color:rgb(100,100,255)
+}
