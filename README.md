@@ -1,2 +1,2 @@
 # SimpleProjects
-Basic command line application codes and web apps.
+Basic command line application codes and web development tasks.
