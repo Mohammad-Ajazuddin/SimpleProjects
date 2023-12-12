@@ -20,10 +20,10 @@ class WithdrawExceededException extends Exception
 class BankAccounts
 {
     double balance;
-    String username;
-    String password;
+    private String username;
+    private String password;
     String branch;
-    private static int AcId;
+    static int AcId;
     BankAccounts(String branch,String username,String password,double balance)
     {
         this.branch=branch; 
