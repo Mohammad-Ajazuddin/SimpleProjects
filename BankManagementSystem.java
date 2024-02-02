@@ -1,164 +1,166 @@
-import java.lang.*;
 import java.util.*;
 
-class CredentialMismatchException extends Exception
-{
+class InsufficientFundsException extends Exception{
     public String toString()
     {
-        return "Credentials Mismatch Try Again";
+        return "Insufficient Funds. Try with lesser amount!";
     }
 }
 
-class WithdrawExceededException extends Exception
-{
+class CredentialsMismatchException extends Exception{
     public String toString()
     {
-        return "WithdrawLimitExceeded --Low Balance";
+        return "Username or password is incorrect. Try again!";
     }
 }
 
-class BankAccounts
+class BankAccount
 {
-    double balance;
+    private double amount;
+    private String branch;
     private String username;
     private String password;
-    String branch;
-    static int AcId;
-    BankAccounts(String branch,String username,String password,double balance)
+
+    BankAccount(String branch, String username, String password, double amount)
     {
-        this.branch=branch; 
-        this.username=username;
-        this.password=password;
-        this.balance=balance;        
-    }
-    public void login(BankAccounts[] Ac,int n) throws CredentialMismatchException
-    {
-        Scanner sc=new Scanner(System.in);
-        System.out.println("Enter username and password To Login");
-        String uname=sc.next();
-        String pwd=sc.next();
-        int flag=0;
-        for(int i=0;i<n;i++)
-        {
-            if(uname.equals(Ac[i].username) && pwd.equals(Ac[i].password))
-            {
-                AcId=i;
-                flag=1;
-                System.out.println("Login Successful");
-                break;
-            }
-        }
-        if(flag==0)
-        {
-            throw new CredentialMismatchException();
-        }
-    }
-    public void credit(BankAccounts[] Ac,double amt)
-    {
-        Ac[AcId].balance+=amt;
-        System.out.println(amt+" added Successfully");
+        this.username = username;
+        this.password = password;
+        this.amount = amount;
+        this.branch = branch;
     }
 
-    public double debit(BankAccounts[] Ac,double amt) throws WithdrawExceededException
+    boolean login(String username,String password)
     {
-        if(Ac[AcId].balance<amt)
-        {
-            throw new WithdrawExceededException();
-        }
-        else
-        {
-            Ac[AcId].balance-=amt;
-        }
-        return Ac[AcId].balance;
+        return this.username.equals(username) && this.password.equals(password);
     }
-    public void displayBalance(BankAccounts[] Ac)
+
+    void deposit(double amount)
     {
-        System.out.println("Available Balance "+Ac[AcId].balance);
+        this.amount+=amount;
+        System.out.println(amount+" Depsoited");
+        System.out.println("Updated Balance "+this.amount);
     }
-    public void exit()
+
+    double withdraw(double amount) throws InsufficientFundsException
     {
-        AcId=-1;
-        System.exit(0);
+        if(this.amount<amount)
+        {
+            throw new InsufficientFundsException();
+        }
+        else{
+            this.amount-=amount;
+        }
+        System.out.println(amount+" Withdrawn");
+        return this.amount;
+    }
+
+    void display()
+    {
+        System.out.println("Your Balance "+this.amount);
     }
 }
 
 public class BankManagementSystem
 {
-    public static void userLogin(BankAccounts[] Ac,int n)
+    public static void operations(BankAccount[] accounts, BankAccount currentAccount, boolean isLoggedIn)
     {
-        int flag=0;
-        while(flag==0)
+        Scanner s = new Scanner(System.in);
+        System.out.println("LOGIN");
+        System.out.println("Enter username");
+        String username = s.next();
+        System.out.println("Enter password");
+        String password = s.next();
+
+        while(!isLoggedIn)
         {
-            try{
-                Ac[0].login(Ac,n);
-                flag=1;
-            }
-            catch(Exception e)
+
+            for(BankAccount account : accounts)
             {
-                System.out.println(e);
-            }
-        }
-        BankManagementSystem.callMethods(Ac,n);
-    }
-    public static void callMethods(BankAccounts[] Ac,int n)
-    {
-        Scanner sc=new Scanner(System.in);
-        while(true)
-        {
-            System.out.println("1. Credit 2. Debit 3. Display Balance 4. Exit 5. Login as Different User");
-            double amt;
-            int ch=sc.nextInt();
-            if(ch==1)
-            {
-                System.out.println("Enter amount to be credited ");
-                amt=sc.nextDouble();
-                Ac[0].credit(Ac,amt);
-            }
-            else if(ch==2)
-            {
-                System.out.println("Enter amount to be Debited ");
-                amt=sc.nextDouble();
-                try{
-                    System.out.println(amt+"  Debited. Remaining Balace "+Ac[0].debit(Ac,amt)); 
+                if(account.login(username, password))
+                {
+                    currentAccount = account;
+                    isLoggedIn = true;
+                    break;
                 }
-                catch(Exception e)
+            }
+
+            if(!isLoggedIn)
+            {
+                try{
+                    throw new CredentialsMismatchException();
+                }
+                catch(CredentialsMismatchException e)
                 {
                     System.out.println(e);
-                    continue;
+                    operations(accounts, currentAccount, isLoggedIn);
                 }
             }
-            else if(ch==3)
+        }
+        System.out.println("Login Successful");
+
+        while(true)
+        {
+            System.out.println("Choose your Option");
+            System.out.println("1. CREDIT 2. DEBIT 3. DISPLAY BALANCE 4. LOGOUT 5.EXIT");
+            int choice = s.nextInt();
+            double amount = 0;
+            switch(choice)
             {
-                Ac[0].displayBalance(Ac);
-            }
-            else if(ch==4)
-            {
-                System.out.println("Do you want to exit? 1.Yes 2. Continue");
-                if(sc.nextInt()==1)
-                {
-                    Ac[0].exit();
-                }
-                else{
-                    BankManagementSystem.callMethods(Ac,n);
-                }
-            }
-            else if(ch==5)
-            {
-                BankManagementSystem.userLogin(Ac, n);
+                case 1:
+                    System.out.println("Enter amount to be credited");
+                    amount = s.nextDouble();
+                    currentAccount.deposit(amount);
+                    break;
+                case 2:
+                    System.out.println("Enter amount to be debied");
+                    amount = s.nextDouble();
+                    try{
+                       amount = currentAccount.withdraw(amount);
+                       System.out.println("Remaining Balance "+amount);
+                    }
+                    catch(InsufficientFundsException e)
+                    {
+                        System.out.println(e);
+                    }
+                    break;
+                case 3:
+                    currentAccount.display();
+                    break;
+                case 4:
+                    isLoggedIn = false;
+                    currentAccount = null;
+                    System.out.println("Logout successful");
+                    operations(accounts, currentAccount, isLoggedIn);
+                    break;
+                case 5:
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid entry!");
             }
         }
     }
     public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.println("Enter No. of accounts");
-        int n=sc.nextInt();
-        BankAccounts[] Ac=new BankAccounts[n];
+        int n = sc.nextInt();
+        BankAccount[] accounts = new BankAccount[n];
         for(int i=0;i<n;i++)
         {
-            System.out.println("Enter Branch Username Password Initial Balance for Account "+(i+1));
-            Ac[i]=new BankAccounts(sc.next(),sc.next(),sc.next(),sc.nextDouble());
+            System.out.println("Enter Information for Account "+(i+1));
+            System.out.println("Enter Branch name");
+            String branch = sc.next();
+            System.out.println("Create a username");
+            String username = sc.next();
+            System.out.println("Create a password");
+            String password = sc.next();
+            System.out.println("Initial amount");
+            double amount = sc.nextDouble();
+            accounts[i] = new BankAccount(branch, username, password, amount);
         }
-        BankManagementSystem.userLogin(Ac,n);
-        // BankManagementSystem.callMethods(Ac,n);
+
+        BankAccount currentAccount = null;
+        boolean isLoggedIn = false;
+        
+        operations(accounts,currentAccount,isLoggedIn);
     }
 }
