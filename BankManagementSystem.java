@@ -62,8 +62,13 @@ class BankAccount
 
 public class BankManagementSystem
 {
-    public static void operations(BankAccount[] accounts, BankAccount currentAccount, boolean isLoggedIn)
+    public static void operations(BankAccount[] accounts, BankAccount currentAccount, boolean isLoggedIn, int attempts)
     {
+        if(attempts==0)
+        {
+            System.out.println("All attempts failed. Autoexited");
+            System.exit(0);
+        }
         Scanner s = new Scanner(System.in);
         System.out.println("LOGIN");
         System.out.println("Enter username");
@@ -92,7 +97,9 @@ public class BankManagementSystem
                 catch(CredentialsMismatchException e)
                 {
                     System.out.println(e);
-                    operations(accounts, currentAccount, isLoggedIn);
+                    attempts--;
+                    System.out.println("Remaining attempts "+attempts);
+                    operations(accounts, currentAccount, isLoggedIn, attempts);
                 }
             }
         }
@@ -130,7 +137,8 @@ public class BankManagementSystem
                     isLoggedIn = false;
                     currentAccount = null;
                     System.out.println("Logout successful");
-                    operations(accounts, currentAccount, isLoggedIn);
+                    attempts = 3;
+                    operations(accounts, currentAccount, isLoggedIn, attempts);
                     break;
                 case 5:
                     System.exit(0);
@@ -160,7 +168,8 @@ public class BankManagementSystem
 
         BankAccount currentAccount = null;
         boolean isLoggedIn = false;
+        int attempts = 3;
         
-        operations(accounts,currentAccount,isLoggedIn);
+        operations(accounts,currentAccount,isLoggedIn,attempts);
     }
 }
